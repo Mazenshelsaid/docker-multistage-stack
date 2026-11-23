@@ -1,0 +1,28 @@
+== containers
+NAME          IMAGE                COMMAND                  SERVICE   CREATED          STATUS                    PORTS
+task3-db-1    postgres:16-alpine   "docker-entrypoint.s…"   db        29 seconds ago   Up 11 seconds (healthy)   5432/tcp
+task3-web-1   task3-web:local      "gunicorn --bind 0.0…"   web       11 seconds ago   Up 5 seconds (healthy)    127.0.0.1:8000->8000/tcp
+
+== image
+IMAGE             ID             DISK USAGE   CONTENT SIZE   EXTRA
+task3-web:local   753356982d67        123MB         30.3MB   U    
+
+== checks
+[ok]   image is set to run as 10001:10001, not root
+[ok]   web process runs as uid 10001
+[ok]   web container has no Linux capabilities
+[ok]   web root filesystem is read-only
+[ok]   backend network is internal
+[ok]   db publishes no ports to the host
+[ok]   nothing listens on host port 5432
+[ok]   web reaches db by name over the private network
+[ok]   db has no outbound internet access
+[ok]   health endpoint reports database up
+[ok]   app writes to the database
+[ok]   info endpoint reports uid 10001
+
+== sample responses
+{"served_by":"065cf1999836","service":"web","visits":2}
+{"gid":10001,"hostname":"065cf1999836","python":"3.12.16","uid":10001}
+
+passed: 12, failed: 0

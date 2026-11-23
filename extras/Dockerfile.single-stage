@@ -1,0 +1,11 @@
+# Naive single-stage image, kept only to compare size and user with the real
+# Dockerfile (scripts/compare-size.sh). Not used by docker-compose.yml.
+FROM python:3.12
+
+WORKDIR /srv
+RUN apt-get update && apt-get install -y libpq-dev && rm -rf /var/lib/apt/lists/*
+COPY app/requirements.txt .
+RUN pip install -r requirements.txt
+COPY app/main.py .
+EXPOSE 8000
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "main:app"]
